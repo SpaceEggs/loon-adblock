@@ -9,8 +9,8 @@
 #!type = normal
 
 [Rewrite]
-# 将比赛列表响应中的广告占位参数归零；兼容整数、小数及组合值
-response if ${url} ~= /^https:\/\/api3\.fotmob\.com\/matches(?:\?|$)/ then response.body.replace(/ads="[^"]*"/, "ads=\"0\"")
+# 删除比赛列表根节点的广告标记，避免客户端仅因属性存在而创建广告单元
+response if ${url} ~= /^https:\/\/api3\.fotmob\.com\/matches(?:\?|$)/ then response.body.replace(/ ads="[^"]*"/, "")
 
 # 清空博彩及推广活动列表
 response if ${url} ~= /^https:\/\/pub\.fotmob\.com\/prod\/pub\/odds\/promo(?:\?|$)/ then response.body.mock("json", `{"country":"","offers":[]}`, 200)

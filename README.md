@@ -6,7 +6,7 @@
 
 - 清空 `pub.fotmob.com/prod/pub/odds/promo` 返回的推广与博彩广告列表。
 - 清空 `pub.fotmob.com/prod/pub/houseads` 返回的 FotMob 自有广告列表。
-- 将 `api3.fotmob.com/matches` 比赛列表中的广告占位参数设置为零，兼容不同广告尺寸并收起空白间隙。
+- 删除 `api3.fotmob.com/matches` 比赛列表根节点的广告标记，尝试阻止客户端创建空白广告单元。
 - 阻止 `apigw.fotmob.com/imp` 广告曝光上报。
 - 拦截已确认的 Nimbus 广告请求、点击追踪和广告落地页。
 - 不修改 FotMob 会员或订阅状态。
@@ -45,7 +45,7 @@ https://raw.githubusercontent.com/SpaceEggs/loon-adblock/main/FotMob_remove_ads.
 
 1. 清空 Loon 请求记录并重启 FotMob。
 2. 检查 `pub.fotmob.com/prod/pub/odds/promo` 是否命中 Rewrite。
-3. 检查 `api3.fotmob.com/matches` 是否命中 Rewrite，响应中的 `ads` 属性应为 `0`。
+3. 检查 `api3.fotmob.com/matches` 是否命中 Rewrite，响应根节点中不应再有 `ads` 属性。
 4. 检查 `apigw.fotmob.com/imp` 是否被拒绝。
 5. 如果仍有广告或空白区域，请提交脱敏后的请求记录和截图。
 

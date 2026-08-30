@@ -2,12 +2,16 @@
 #!desc = 移除 FotMob 推广、博彩广告、自有广告及相关曝光上报
 #!author = SpaceEggs
 #!homepage = https://github.com/SpaceEggs/loon-adblock
+#!icon = https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/52/04/b8/5204b89d-b945-c798-3200-b64cd4184e8b/AppIcon-0-0-1x_U007epad-0-11-0-85-220.png/512x512bb.jpg
 #!system = iOS,iPadOS
 #!loon_version = 3.5.1(978)
 #!tag = 去广告,FotMob
 #!type = normal
 
 [Rewrite]
+# 将比赛列表响应中的广告占位高度归零，收起广告留下的空白间隙
+response if ${url} ~= /^https:\/\/api3\.fotmob\.com\/matches(?:\?|$)/ then response.body.replace(/ads="[0-9]+"/, "ads=\"0\"")
+
 # 清空博彩及推广活动列表
 response if ${url} ~= /^https:\/\/pub\.fotmob\.com\/prod\/pub\/odds\/promo(?:\?|$)/ then response.body.mock("json", `{"country":"","offers":[]}`, 200)
 
@@ -26,4 +30,4 @@ DOMAIN,record.gempartner.io,REJECT
 DOMAIN,gemsea-play.com,REJECT
 
 [Mitm]
-hostname = pub.fotmob.com, apigw.fotmob.com
+hostname = api3.fotmob.com, pub.fotmob.com, apigw.fotmob.com

@@ -6,7 +6,7 @@
 
 - 清空 `pub.fotmob.com/prod/pub/odds/promo` 返回的推广与博彩广告列表。
 - 清空 `pub.fotmob.com/prod/pub/houseads` 返回的 FotMob 自有广告列表。
-- 删除 `api3.fotmob.com/matches` 比赛列表根节点的广告标记，尝试阻止客户端创建空白广告单元。
+- 为 Nimbus 广告竞价请求返回标准 HTTP 204 no-fill，促使客户端主动收起广告容器。
 - 阻止 `apigw.fotmob.com/imp` 广告曝光上报。
 - 拦截已确认的 Nimbus 广告请求、点击追踪和广告落地页。
 - 不修改 FotMob 会员或订阅状态。
@@ -45,7 +45,7 @@ https://raw.githubusercontent.com/SpaceEggs/loon-adblock/main/FotMob_remove_ads.
 
 1. 清空 Loon 请求记录并重启 FotMob。
 2. 检查 `pub.fotmob.com/prod/pub/odds/promo` 是否命中 Rewrite。
-3. 检查 `api3.fotmob.com/matches` 是否命中 Rewrite，响应根节点中不应再有 `ads` 属性。
+3. 检查 `fotmobas-fotmobsoccerlivescores.adsbynimbus.com` 是否命中 Rewrite 并返回 HTTP 204，而不是 DNS-REJECT。
 4. 检查 `apigw.fotmob.com/imp` 是否被拒绝。
 5. 如果仍有广告或空白区域，请提交脱敏后的请求记录和截图。
 

@@ -9,9 +9,6 @@
 #!type = normal
 
 [Rewrite]
-# 删除比赛列表根节点的广告标记，避免客户端仅因属性存在而创建广告单元
-response if ${url} ~= /^https:\/\/api3\.fotmob\.com\/matches(?:\?|$)/ then response.body.replace(/ ads="[^"]*"/, "")
-
 # 清空博彩及推广活动列表
 response if ${url} ~= /^https:\/\/pub\.fotmob\.com\/prod\/pub\/odds\/promo(?:\?|$)/ then response.body.mock("json", `{"country":"","offers":[]}`, 200)
 
@@ -21,13 +18,13 @@ response if ${url} ~= /^https:\/\/pub\.fotmob\.com\/prod\/pub\/houseads(?:\?|$)/
 # 阻止广告曝光上报
 request if ${url} ~= /^https:\/\/apigw\.fotmob\.com\/imp(?:\?|$)/ then reject_dict(200)
 
-[Rule]
-# FotMob 使用的第三方广告竞价服务
-DOMAIN,fotmobas-fotmobsoccerlivescores.adsbynimbus.com,REJECT
+# 向 Nimbus 广告竞价请求返回标准 no-fill，促使客户端收起广告容器
+request if ${url} ~= /^https:\/\/fotmobas-fotmobsoccerlivescores\.adsbynimbus\.com(?:\/|$)/ then reject(204)
 
+[Rule]
 # 已确认的广告点击追踪与落地页
 DOMAIN,record.gempartner.io,REJECT
 DOMAIN,gemsea-play.com,REJECT
 
 [Mitm]
-hostname = api3.fotmob.com, pub.fotmob.com, apigw.fotmob.com
+hostname = pub.fotmob.com, apigw.fotmob.com, fotmobas-fotmobsoccerlivescores.adsbynimbus.com

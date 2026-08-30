@@ -18,7 +18,7 @@ response if ${url} ~= /^https:\/\/pub\.fotmob\.com\/prod\/pub\/houseads(?:\?|$)/
 # 阻止广告曝光上报
 request if ${url} ~= /^https:\/\/apigw\.fotmob\.com\/imp(?:\?|$)/ then reject_dict(200)
 
-# 向 Nimbus 广告竞价请求返回标准 no-fill，促使客户端收起广告容器
+# 向 Nimbus 广告竞价请求返回标准 no-fill，使竞价快速结束且不返回广告
 request if ${url} ~= /^https:\/\/fotmobas-fotmobsoccerlivescores\.adsbynimbus\.com(?:\/|$)/ then reject(204)
 
 [Rule]

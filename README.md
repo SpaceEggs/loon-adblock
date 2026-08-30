@@ -6,7 +6,7 @@
 
 - 清空 `pub.fotmob.com/prod/pub/odds/promo` 返回的推广与博彩广告列表。
 - 清空 `pub.fotmob.com/prod/pub/houseads` 返回的 FotMob 自有广告列表。
-- 为 Nimbus 广告竞价请求返回标准 HTTP 204 no-fill，促使客户端主动收起广告容器。
+- 为 Nimbus 广告竞价请求返回标准 HTTP 204 no-fill，使竞价快速结束且不返回广告。
 - 阻止 `apigw.fotmob.com/imp` 广告曝光上报。
 - 拦截已确认的 Nimbus 广告请求、点击追踪和广告落地页。
 - 不修改 FotMob 会员或订阅状态。
@@ -50,6 +50,10 @@ https://raw.githubusercontent.com/SpaceEggs/loon-adblock/main/FotMob_remove_ads.
 5. 如果仍有广告或空白区域，请提交脱敏后的请求记录和截图。
 
 请勿公开上传包含 Cookie、Authorization、`auth_token`、邮箱或设备标识的日志。
+
+### 已知限制
+
+FotMob iOS 客户端会在比赛列表中固定创建原生广告单元。即使所有广告请求均返回 no-fill，该单元仍可能保留为空白间隙。Loon 只能修改网络请求和响应，无法修改 App 内部的 UIKit/SwiftUI 行高或布局约束，因此本插件不保证消除该空白区域。
 
 ## 免责声明
 

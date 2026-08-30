@@ -9,8 +9,8 @@
 #!type = normal
 
 [Rewrite]
-# 将比赛列表响应中的广告占位高度归零，收起广告留下的空白间隙
-response if ${url} ~= /^https:\/\/api3\.fotmob\.com\/matches(?:\?|$)/ then response.body.replace(/ads="[0-9]+"/, "ads=\"0\"")
+# 将比赛列表响应中的广告占位参数归零；兼容整数、小数及组合值
+response if ${url} ~= /^https:\/\/api3\.fotmob\.com\/matches(?:\?|$)/ then response.body.replace(/ads="[^"]*"/, "ads=\"0\"")
 
 # 清空博彩及推广活动列表
 response if ${url} ~= /^https:\/\/pub\.fotmob\.com\/prod\/pub\/odds\/promo(?:\?|$)/ then response.body.mock("json", `{"country":"","offers":[]}`, 200)

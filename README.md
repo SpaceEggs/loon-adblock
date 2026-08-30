@@ -6,7 +6,7 @@
 
 - 清空 `pub.fotmob.com/prod/pub/odds/promo` 返回的推广与博彩广告列表。
 - 清空 `pub.fotmob.com/prod/pub/houseads` 返回的 FotMob 自有广告列表。
-- 将 `api3.fotmob.com/matches` 比赛列表中的广告占位高度设置为零，收起广告留下的空白间隙。
+- 将 `api3.fotmob.com/matches` 比赛列表中的广告占位参数设置为零，兼容不同广告尺寸并收起空白间隙。
 - 阻止 `apigw.fotmob.com/imp` 广告曝光上报。
 - 拦截已确认的 Nimbus 广告请求、点击追踪和广告落地页。
 - 不修改 FotMob 会员或订阅状态。

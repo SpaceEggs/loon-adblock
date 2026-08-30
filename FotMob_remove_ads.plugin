@@ -1,0 +1,29 @@
+#!name = FotMob 去广告
+#!desc = 移除 FotMob 推广、博彩广告、自有广告及相关曝光上报
+#!author = SpaceEggs
+#!homepage = https://github.com/SpaceEggs/loon-adblock
+#!system = iOS,iPadOS
+#!loon_version = 3.5.1(978)
+#!tag = 去广告,FotMob
+#!type = normal
+
+[Rewrite]
+# 清空博彩及推广活动列表
+response if ${url} ~= /^https:\/\/pub\.fotmob\.com\/prod\/pub\/odds\/promo(?:\?|$)/ then response.body.mock("json", `{"country":"","offers":[]}`, 200)
+
+# 清空 FotMob 自有广告，防止第三方广告失败后回退显示
+response if ${url} ~= /^https:\/\/pub\.fotmob\.com\/prod\/pub\/houseads(?:\?|$)/ then response.body.mock("json", `[]`, 200)
+
+# 阻止广告曝光上报
+request if ${url} ~= /^https:\/\/apigw\.fotmob\.com\/imp(?:\?|$)/ then reject_dict(200)
+
+[Rule]
+# FotMob 使用的第三方广告竞价服务
+DOMAIN,fotmobas-fotmobsoccerlivescores.adsbynimbus.com,REJECT
+
+# 已确认的广告点击追踪与落地页
+DOMAIN,record.gempartner.io,REJECT
+DOMAIN,gemsea-play.com,REJECT
+
+[Mitm]
+hostname = pub.fotmob.com, apigw.fotmob.com
